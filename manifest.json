@@ -3,13 +3,13 @@
   "name": "Gestión de Multas Indartsu Club",
   "icons": [
     {
-      "src": "icon-192.png",
-      "type": "logoInd.jpg",
+      "src": "logoInd.jpg",
+      "type": "image",
       "sizes": "192x192"
     },
     {
-      "src": "icon-512.png",
-      "type": "logoInd.jpg",
+      "src": "logoInd.jpg",
+      "type": "image",
       "sizes": "512x512"
     }
   ],
