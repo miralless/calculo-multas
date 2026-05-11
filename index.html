@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multas Indartsu Club</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Enlace al manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#EA4335">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MultasApp">
+</head>
+<body>
+    <header id="main-header" style="display: none;">
+        <nav class="nav-menu">
+            <a href="#" id="link-registrar" class="active">Registrar</a>
+            <a href="#" id="link-totales">Totales</a>
+            <a href="#" id="link-historial">Historial</a>
+        </nav>
+    </header>
+
+    <!-- Sección de Login -->
+    <div id="login-section" class="container">
+        <h2>Acceso a multas</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Contraseña">
+        <button id="btn-login">Entrar</button>
+        <p id="login-error" style="color: red;"></p>
+    </div>
+
+    <!-- Sección de la App (Oculta por defecto) -->
+    <div id="app-section" class="container" style="display: none; margin-top: 0px;">
+        <h1>Multas Indartsu Club 2025/26</h1>
+        
+        <div class="form-group">
+            <label>Jugador:</label>
+            <select id="select-jugador">
+                <option value="">Cargando jugadores...</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Regla infringida:</label>
+            <select id="select-regla">
+                <option value="">Cargando reglamento...</option>
+            </select>
+        </div>
+
+        <button id="btn-multar">Registrar Multa</button>
+
+        <hr>
+        <button id="btn-logout">Cerrar Sesión</button>
+    </div>
+
+    <div id="view-historial" class="view" style="display: none;">
+        <div id="lista-multas"></div>
+    </div>
+
+    <div id="view-totales" style="display: none;">
+        <select id="selectorMes" style="margin-bottom: 15px; border-radius: 5px; padding: 10px; width: 100%; margin-top: -10px;"></select>
+        <div id="resumen-total-mes" class="resumen-container">
+            <div class="card-total-general">
+                <span>TOTAL MES:</span>
+                <strong id="suma-total-general">0€</strong>
+            </div>
+            <button id="btn-exportar" class="btn-excel">
+                <i class="fa-solid fa-file-excel"></i> Exportar a Excel
+            </button>
+        </div>
+        <div class="view-grafica">
+            <canvas id="graficaMultas" style="margin-bottom: 30px;"></canvas>
+        </div>
+        <div id="lista-totales"></div>
+    </div>
+
+    <!-- Importante: Usamos type="module" para poder usar Firebase -->
+    <script type="module" src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+</body>
+</html>
