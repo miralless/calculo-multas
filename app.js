@@ -354,12 +354,14 @@ async function cargarTotales() {
         const deudasMesActual = {}; // <--- NUEVA: Para guardar solo lo de este mes
         const pagosTotales = {};  
         let totalSoloEsteMes = 0;
+        const pagosMesActual = {};
 
         jugSnap.forEach(docJug => {
             const n = docJug.data().nombre;
             deudasTotales[n] = 0;
             deudasMesActual[n] = 0; // Inicializar
             pagosTotales[n] = 0;
+            pagosMesActual[n] = 0;
         });
 
         // 1. Procesar multas
@@ -390,6 +392,9 @@ async function cargarTotales() {
                 if (data.año < añoFiltro || (data.año === añoFiltro && data.mes <= mesFiltro)) {
                     pagosTotales[data.jugador] += parseFloat(data.importe || 0);
                 }
+                if (data.año === añoFiltro && data.mes === mesFiltro) {
+                    pagosMesActual[data.jugador] += parseFloat(data.importe || 0);
+                }
             }
         });
 
@@ -404,18 +409,18 @@ async function cargarTotales() {
             const debeSoloEsteMes = deudasMesActual[n]; // <--- Usamos esta para el texto
             const totalPagado = pagosTotales[n];
             const saldoPendienteReal = Math.max(0, totalDebeHistorico - totalPagado);
-            const alDia = saldoPendienteReal <= 0;
+            const alDia = debeSoloEsteMes <= totalPagado;
 
             // Para la gráfica seguimos usando el total del mes para que la barra mida eso
             datosParaGrafica[n] = debeSoloEsteMes; 
             estadosPagoParaGrafica[n] = {
                 totalOriginal: debeSoloEsteMes,
-                pagado: totalPagado, // Esto es para la lógica de colores (amarillo/verde)
+                pagadoEsteMes: pagosMesActual[n],
                 pendiente: saldoPendienteReal
             };
 
             contenedor.innerHTML += `
-                <div onclick="confirmarPago('${n}', ${mesFiltro}, ${añoFiltro}, ${saldoPendienteReal})" 
+                <div onclick="confirmarPago('${n}', ${mesFiltro}, ${añoFiltro}, ${debeSoloEsteMes})" 
                      class="total-item" 
                      style="display: flex; flex-direction: row; justify-content: space-between; padding: 12px; background-color: ${alDia ? '#eaffef' : '#ffffff'}; border-radius: 10px; margin-bottom: 8px; border: 1px solid ${alDia ? '#28a745' : '#eeeeee'}; cursor: pointer;">
                     <span>${alDia ? '✅ ' : ''}${n}</span>
@@ -449,15 +454,16 @@ function renderizarGrafica(datos, estadosPago, esMovil) {
     const coloresBarras = labels.map(n => {
         const info = estadosPago[n];
         
-        if (info.pendiente <= 0 && info.totalOriginal > 0) {
-            // PAGADO TOTALMENTE
-            return { bg: 'rgba(40, 167, 69, 0.7)', border: '#28a745' };
-        } else if (info.pagado > 0 && info.pendiente > 0) {
-            // PAGO PARCIAL
-            return { bg: 'rgba(255, 193, 7, 0.7)', border: '#ffc107' };
+        if (info.totalOriginal === 0) {
+            return { bg: 'rgba(200, 200, 200, 0.2)', border: '#ccc' }; // Sin multas este mes
+        }
+
+        if (info.pagadoEsteMes >= info.totalOriginal) {
+            return { bg: 'rgba(40, 167, 69, 0.7)', border: '#28a745' }; // Todo pagado (Verde)
+        } else if (info.pagadoEsteMes > 0) {
+            return { bg: 'rgba(255, 193, 7, 0.7)', border: '#ffc107' }; // Pago parcial ESTE MES (Amarillo)
         } else {
-            // NO PAGADO O SIN DEUDA
-            return { bg: 'rgba(255, 99, 132, 0.7)', border: '#ff4d4d' };
+            return { bg: 'rgba(255, 99, 132, 0.7)', border: '#ff4d4d' }; // No ha pagado nada este mes (Rojo)
         }
     });
 
@@ -488,7 +494,8 @@ function renderizarGrafica(datos, estadosPago, esMovil) {
                         label: function(context) {
                             const n = context.label;
                             const info = estadosPago[n];
-                            return ` Total: ${info.totalOriginal}€ | Pagado: ${info.pagado}€ | Pendiente: ${info.pendiente}€`;
+                            // Cambiamos info.pagado por info.pagadoEsteMes e info.pendiente por info.pendiente
+                            return ` Total Mes: ${info.totalOriginal}€ | Pagado Mes: ${info.pagadoEsteMes}€ | Pendiente Total: ${info.pendiente}€`;
                         }
                     }
                 }
