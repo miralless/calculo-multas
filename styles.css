@@ -66,7 +66,7 @@ input, select {
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 8px;
     box-sizing: border-box; /* Para que el padding no rompa el ancho */
 }
 
@@ -83,8 +83,12 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
-    background-color: #218838;
+.btn-del {
+    background-color: #ff4d4d;
+    width: auto;
+    height: auto;
+    padding: 8px 12px;
+    margin-left: 10px;
 }
 
 #btn-logout {
@@ -92,23 +96,39 @@ button:hover {
     margin-top: 20px;
 }
 
-.multa-item {
+.multa-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 5px solid #EA4335; /* El rojo característico */
+}
+
+.multa-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.multa-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f9f9f9;
-    margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 8px;
-    border-left: 4px solid #28a745; /* Un detalle visual verde */
 }
 
-.info-multa {
-    text-align: left;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.multa-infraccion {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.multa-monto {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
 }
 
 .btn-eliminar {
@@ -121,6 +141,13 @@ button:hover {
     font-size: 12px;
     margin-left: 10px;
     width: auto; /* Para que no ocupe todo el ancho */
+}
+
+.btn-del i, 
+.btn-del svg {
+    font-size: 14px !important; /* Ajusta este valor a tu gusto (12px, 14px, 16px...) */
+    width: 14px !important;    /* Para asegurar el tamaño si es SVG */
+    height: 14px !important;        /* Rojo para peligro */
 }
 
 #view-historial {
@@ -259,6 +286,123 @@ button:hover {
     justify-content: center;
     align-items: center;
     gap: 8px;
+}
+.checkbox-group-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    padding: 5px;
+}
+
+.player-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.player-option:last-child { border-bottom: none; }
+
+.player-option input[type="checkbox"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    accent-color: #EA4335; /* Tu rojo */
+}
+
+.player-option span {
+    font-size: 16px;
+    color: #333;
+}
+
+.checkbox-group-container {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.player-option {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.player-option label {
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+/* 1. El contenedor principal (el cuadro de búsqueda) */
+.ts-control {
+    border-radius: 8px !important;
+    padding: 10px !important;
+    border: 1px solid #ccc !important;
+    font-family: Arial, sans-serif;
+    border-radius: 8px !important;
+    margin-top: 5px !important;
+    height: auto !important;
+    min-height: 55px !important;
+}
+
+#select-regla {
+    height: auto !important;
+    min-height: 55px !important;
+    border: 1px solid #ccc !important;
+}
+
+/* 2. Las etiquetas (los nombres de los jugadores seleccionados) */
+.ts-control .item {
+    background-color: #EA4335 !important; /* Rojo de tu app */
+    color: white !important;
+    border-radius: 5px !important;
+    font-weight: bold;
+    padding: 5px 10px !important;
+    margin-right: 7px !important;
+}
+
+/* 3. El botón "X" para eliminar un jugador de la lista */
+.ts-control .item .remove {
+    border-left-color: rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+/* 4. El desplegable que aparece al buscar */
+.ts-dropdown {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+/* 5. Las opciones dentro del desplegable */
+.ts-dropdown .option {
+    padding: 10px !important;
+}
+
+/* 6. Cuando pasas el ratón sobre una opción o está seleccionada */
+.ts-dropdown .active {
+    background-color: #f8d7da !important; /* Un rojo muy clarito */
+    color: #EA4335 !important;
+    font-weight: bold;
+}
+
+/* Cuando el contenedor tiene elementos con la clase .item (jugadores seleccionados), 
+   ocultamos el input del placeholder */
+
+.ts-wrapper.has-items .ts-control > input::placeholder {
+    color: transparent !important;
+    opacity: 0 !important;
+}
+
+/* Opcional: Si quieres que el cursor de escritura también desaparezca 
+   para que no parpadee sobre los nombres */
+.ts-wrapper.has-items .ts-control > input {
+    width: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
 }
 
 /* Ajuste para móvil: que el botón no sea gigante */

@@ -17,6 +17,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MultasApp">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 </head>
 <body>
     <header id="main-header" style="display: none;">
@@ -41,16 +43,15 @@
         <h1>Multas Indartsu Club 2025/26</h1>
         
         <div class="form-group">
-            <label>Jugador:</label>
-            <select id="select-jugador">
-                <option value="">Cargando jugadores...</option>
+            <label class="form-label">Jugador(es):</label>
+            <select id="select-jugadores-multi" multiple autocomplete="off">
             </select>
         </div>
 
         <div class="form-group">
             <label>Regla infringida:</label>
             <select id="select-regla">
-                <option value="">Cargando reglamento...</option>
+                <option value=""></option>
             </select>
         </div>
 
